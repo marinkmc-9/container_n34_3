@@ -25,7 +25,6 @@ RUN apt -y install apache2
 RUN a2enmod rewrite
 RUN a2enmod ssl
 RUN a2ensite default-ssl
-COPY index.html /var/www/html
 RUN sed -i -e "s/^<\/VirtualHost>/RewriteEngine on/" /etc/apache2/sites-available/000-default.conf
 RUN echo 'RewriteCond %{HTTPS} off' >> /etc/apache2/sites-available/000-default.conf
 RUN echo 'RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L]' >> /etc/apache2/sites-available/000-default.conf
@@ -54,3 +53,4 @@ RUN echo "root:rootpass" | chpasswd
 # 8. 起動時コマンドの指定
 COPY startup.sh /startup.sh
 RUN chmod 744 /startup.sh
+CMD /startup.sh
